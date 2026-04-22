@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.2.11415.280 d18.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionCryo", "GestionCryo\GestionCryo.csproj", "{AD239868-257B-4135-8414-BCF1DBE58A0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionCryosTests", "GestionCryosTests\GestionCryosTests.csproj", "{2BD76EA7-68D0-4E95-A536-555BBF9AD834}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD239868-257B-4135-8414-BCF1DBE58A0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD239868-257B-4135-8414-BCF1DBE58A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD239868-257B-4135-8414-BCF1DBE58A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD239868-257B-4135-8414-BCF1DBE58A0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BD76EA7-68D0-4E95-A536-555BBF9AD834}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BD76EA7-68D0-4E95-A536-555BBF9AD834}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BD76EA7-68D0-4E95-A536-555BBF9AD834}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BD76EA7-68D0-4E95-A536-555BBF9AD834}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {26D6E9F7-3520-4D36-B75B-869973545A67}
+	EndGlobalSection
+EndGlobal

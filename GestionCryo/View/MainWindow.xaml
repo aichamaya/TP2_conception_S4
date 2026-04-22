@@ -1,0 +1,148 @@
+﻿<Window x:Class="GestionCryo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestionCryo"
+        mc:Ignorable="d"
+        Title="GestionCryo"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        Background="#F4F7FB">
+
+    <Window.Resources>
+        <Style x:Key="SidebarButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="0,0,0,12"/>
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#2E5BFF"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="10"
+                                Padding="12">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1E47D6"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#1639AE"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#AAB7E8"/>
+                    <Setter Property="Foreground" Value="#EEF2FF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="SecondarySidebarButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource SidebarButtonStyle}">
+            <Setter Property="Background" Value="#4B5563"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#374151"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#1F2937"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="#C7CDD8"/>
+                    <Setter Property="Foreground" Value="#F3F4F6"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0"
+                Background="#0F172A"
+                Padding="24">
+            <DockPanel LastChildFill="True">
+
+                <!-- Bas sidebar -->
+                <StackPanel DockPanel.Dock="Bottom">
+                    <Separator Margin="0,12,0,18" Background="#334155"/>
+
+                    <Button Content="Accueil"
+                            Style="{StaticResource SidebarButtonStyle}"
+                            Command="{Binding RetourAccueilCommande}"/>
+
+                    <Button Content="Se déconnecter"
+                            Style="{StaticResource SecondarySidebarButtonStyle}"
+                            Command="{Binding SeDeconnecterCommande}"/>
+
+                    <Button Content="Se connecter"
+                            Style="{StaticResource SecondarySidebarButtonStyle}"
+                            Command="{Binding PageConnexionCommande}"/>
+                </StackPanel>
+
+                <!-- Haut sidebar -->
+                <StackPanel>
+                    <Border Background="#1E293B"
+                            CornerRadius="16"
+                            Padding="18"
+                            Margin="0,0,0,24">
+                        <StackPanel>
+                            <TextBlock Text="GestionCryo"
+                                       Foreground="White"
+                                       FontSize="24"
+                                       FontWeight="Bold"/>
+
+                            <TextBlock Text="Système de gestion maritime"
+                                       Foreground="#CBD5E1"
+                                       FontSize="12"
+                                       Margin="0,6,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#1E293B"
+                            CornerRadius="16"
+                            Padding="18">
+                        <StackPanel>
+                            <TextBlock Text="Utilisateur connecté"
+                                       Foreground="#93C5FD"
+                                       FontSize="12"
+                                       FontWeight="SemiBold"/>
+
+                            <TextBlock Text="{Binding ConnectedUserService.ConnectedUserName}"
+                                       Foreground="White"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       TextWrapping="Wrap"
+                                       Margin="0,8,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Zone de contenu -->
+        <Grid Grid.Column="1" Margin="24">
+            <Border Background="White"
+                    CornerRadius="20"
+                    Padding="20"
+                    BorderBrush="#E2E8F0"
+                    BorderThickness="1">
+                <ContentControl Content="{Binding NavigationService.CurrentView}"/>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
