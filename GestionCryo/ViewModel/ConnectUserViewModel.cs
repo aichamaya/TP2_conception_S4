@@ -10,10 +10,11 @@ namespace GestionCryo.ViewModel
     public class ConnectUserViewModel : BaseViewModel
     {
         private readonly IConnectedUserService _connectedUserService;
-        private readonly IUtilisateurDalService _userDALService;
+        private readonly IUtilisateurDAL _utilisateurDAL;
         private readonly INavigationService _navigationService;
         private readonly IAfficheService _afficheService;
-        private readonly IStationDalService _stationDalService;
+        private readonly IStationDAL _stationDAL;
+
         private string? _username;
         public string Username
         {
@@ -28,8 +29,8 @@ namespace GestionCryo.ViewModel
                 }
             }
         }
-        private string? _password;
 
+        private string? _password;
         public string Password
         {
             get => _password;
@@ -44,18 +45,21 @@ namespace GestionCryo.ViewModel
             }
         }
 
-        public ConnectUserViewModel(IUtilisateurDalService userDALService, IConnectedUserService connectedUserService, INavigationService navigationService, IAfficheService afficheService, IStationDalService stationDALService)
+        
+        public ConnectUserViewModel(IUtilisateurDAL utilisateurDAL, IConnectedUserService connectedUserService, INavigationService navigationService, IAfficheService afficheService, IStationDAL stationDAL)
         {
-            _userDALService = userDALService;
+            _utilisateurDAL = utilisateurDAL;
             _connectedUserService = connectedUserService;
             _navigationService = navigationService;
             _afficheService = afficheService;
-            _stationDalService = stationDALService;
+            _stationDAL = stationDAL;
             ConnectCommand = new RelayCommand(Connect, CanConnect);
         }
 
+        
         public ICommand ConnectCommand { get; set; }
 
+        
         private bool CanConnect()
         {
             return !string.IsNullOrWhiteSpace(Username)
@@ -63,11 +67,12 @@ namespace GestionCryo.ViewModel
                 && !HasErrors;
         }
 
+        
         private void Connect()
         {
             ClearErrors(nameof(Username));
             ClearErrors(nameof(Password));
-            var user = _userDALService.TrouverParNomEtMotDePasse(Username, Password);
+            Utilisateur? user = _utilisateurDAL.TrouverParNomEtMotDePasse(Username, Password);
             if (user != null)
             {
                 _connectedUserService.ConnectedUser = user;
@@ -77,7 +82,7 @@ namespace GestionCryo.ViewModel
                 }
                 else
                 {
-                    _afficheService.StationAffichee = _stationDalService.ObtenirStationParId((int)user.StationId);
+                    _afficheService.StationAffichee = _stationDAL.ObtenirStationParId((int)user.StationId);
                     _navigationService.NavigateTo<HomeViewModel>();
                 }
             }
@@ -88,6 +93,7 @@ namespace GestionCryo.ViewModel
             }
         }
 
+        
         private void ValidateProperty(string propertyName, string value)
         {
             ClearErrors(propertyName);
@@ -98,6 +104,7 @@ namespace GestionCryo.ViewModel
             }
             OnPropertyChanged(nameof(ErrorMessages));
         }
+
         public string ErrorConnexion { get; set; }
     }
 }

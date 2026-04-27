@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Xunit;
 using GestionCryo.Model;
+using GestionCryo.Model.Interfaces;
 using GestionCryo.Utils.Services;
 using GestionCryo.Utils.Services.Interfaces;
 using GestionCryo.ViewModel;
@@ -10,7 +11,7 @@ namespace GestionCryoTests.ViewModelTests
     public class MainViewModelTests
     {
         private readonly Mock<INavigationService> _navigationServiceMock;
-        private readonly Mock<IStationDalService> _stationServiceMock;
+        private readonly Mock<IStationDAL> _stationDALMock;
         private readonly AfficheService _afficheService;
         private readonly ConnectedUserService _connectedUserService;
         private readonly MainViewModel _viewModel;
@@ -18,7 +19,7 @@ namespace GestionCryoTests.ViewModelTests
         public MainViewModelTests()
         {
             _navigationServiceMock = new Mock<INavigationService>();
-            _stationServiceMock = new Mock<IStationDalService>();
+            _stationDALMock = new Mock<IStationDAL>();
             _afficheService = new AfficheService();
             _connectedUserService = new ConnectedUserService();
 
@@ -26,7 +27,7 @@ namespace GestionCryoTests.ViewModelTests
                 _navigationServiceMock.Object,
                 _connectedUserService,
                 _afficheService,
-                _stationServiceMock.Object
+                _stationDALMock.Object
             );
         }
 
@@ -34,9 +35,7 @@ namespace GestionCryoTests.ViewModelTests
         public void CanGoHome_ShouldReturnFalse_WhenNoUser()
         {
             _connectedUserService.ConnectedUser = null;
-
-            var result = _viewModel.RetourAccueilCommande.CanExecute(null);
-
+            bool result = _viewModel.RetourAccueilCommande.CanExecute(null);
             Assert.False(result);
         }
 
@@ -44,9 +43,7 @@ namespace GestionCryoTests.ViewModelTests
         public void CanGoHome_ShouldReturnTrue_WhenUserExists()
         {
             _connectedUserService.ConnectedUser = new Utilisateur();
-
-            var result = _viewModel.RetourAccueilCommande.CanExecute(null);
-
+            bool result = _viewModel.RetourAccueilCommande.CanExecute(null);
             Assert.True(result);
         }
 
@@ -54,9 +51,7 @@ namespace GestionCryoTests.ViewModelTests
         public void GoHome_ShouldNavigateToAdmin_WhenUserIsAdmin()
         {
             _connectedUserService.ConnectedUser = new Utilisateur { Role = Role.Admin };
-
             _viewModel.RetourAccueilCommande.Execute(null);
-
             _navigationServiceMock.Verify(
                 n => n.NavigateTo<AdminHomeViewModel>(),
                 Times.Once);
@@ -65,15 +60,12 @@ namespace GestionCryoTests.ViewModelTests
         [Fact]
         public void GoHome_ShouldNavigateToHome_WhenUserIsNotAdmin()
         {
-            var user = new Utilisateur { Role = Role.User, StationId = 1 };
+            Utilisateur user = new Utilisateur { Role = Role.Employe, StationId = 1 };
             _connectedUserService.ConnectedUser = user;
-
-            _stationServiceMock
+            _stationDALMock
                 .Setup(s => s.ObtenirStationParId(1))
                 .Returns(new Station());
-
             _viewModel.RetourAccueilCommande.Execute(null);
-
             _navigationServiceMock.Verify(
                 n => n.NavigateTo<HomeViewModel>(),
                 Times.Once);
@@ -83,9 +75,7 @@ namespace GestionCryoTests.ViewModelTests
         public void CanDisconnect_ShouldReturnFalse_WhenNoUser()
         {
             _connectedUserService.ConnectedUser = null;
-
-            var result = _viewModel.SeDeconnecterCommande.CanExecute(null);
-
+            bool result = _viewModel.SeDeconnecterCommande.CanExecute(null);
             Assert.False(result);
         }
 
@@ -93,9 +83,7 @@ namespace GestionCryoTests.ViewModelTests
         public void CanDisconnect_ShouldReturnTrue_WhenUserExists()
         {
             _connectedUserService.ConnectedUser = new Utilisateur();
-
-            var result = _viewModel.SeDeconnecterCommande.CanExecute(null);
-
+            bool result = _viewModel.SeDeconnecterCommande.CanExecute(null);
             Assert.True(result);
         }
 
@@ -103,23 +91,18 @@ namespace GestionCryoTests.ViewModelTests
         public void Deconnexion_ShouldClearUser_AndNavigate()
         {
             _connectedUserService.ConnectedUser = new Utilisateur();
-
             _viewModel.SeDeconnecterCommande.Execute(null);
-
             Assert.Null(_connectedUserService.ConnectedUser);
-
             _navigationServiceMock.Verify(
                 n => n.NavigateTo<ConnectUserViewModel>(),
-                Times.Once);
+                Times.Exactly(2)); 
         }
 
         [Fact]
         public void CanConnect_ShouldReturnTrue_WhenNoUser()
         {
             _connectedUserService.ConnectedUser = null;
-
-            var result = _viewModel.PageConnexionCommande.CanExecute(null);
-
+            bool result = _viewModel.PageConnexionCommande.CanExecute(null);
             Assert.True(result);
         }
 
@@ -127,9 +110,7 @@ namespace GestionCryoTests.ViewModelTests
         public void CanConnect_ShouldReturnFalse_WhenUserExists()
         {
             _connectedUserService.ConnectedUser = new Utilisateur();
-
-            var result = _viewModel.PageConnexionCommande.CanExecute(null);
-
+            bool result = _viewModel.PageConnexionCommande.CanExecute(null);
             Assert.False(result);
         }
     }

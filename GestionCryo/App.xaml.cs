@@ -21,20 +21,18 @@ namespace GestionCryo
             _serviceProvider = services.BuildServiceProvider();
         }
 
-        
         private void ConfigurerServices(IServiceCollection services)
         {
             services.AddSingleton<MainWindow>(provider => new MainWindow
             {
                 DataContext = provider.GetRequiredService<MainViewModel>()
             });
-
             ConfigurerViewModels(services);
             ConfigurerDAL(services);
             ConfigurerServices2(services);
         }
 
-      
+        
         private void ConfigurerViewModels(IServiceCollection services)
         {
             services.AddSingleton<MainViewModel>();
@@ -52,17 +50,13 @@ namespace GestionCryo
             });
         }
 
-       
+        
         private void ConfigurerDAL(IServiceCollection services)
         {
             services.AddSingleton<IUtilisateurDAL, UtilisateurDAL>();
             services.AddSingleton<IBateauDAL, BateauDAL>();
             services.AddSingleton<IStationDAL, StationDAL>();
             services.AddSingleton<IMaterielDAL, MaterielDAL>();
-            services.AddSingleton<IUtilisateurDalService, UtilisateurDalService>();
-            services.AddSingleton<IMaterielDalService, MaterielDalService>();
-            services.AddSingleton<IStationDalService, StationDalService>();
-            services.AddSingleton<IBateauDalService, BateauDalService>();
             services.AddDbContext<ApplicationDbContext>();
         }
 
@@ -84,7 +78,6 @@ namespace GestionCryo
                     dbContext.SeedData();
                 }
             }
-
             MainWindow mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
             base.OnStartup(e);

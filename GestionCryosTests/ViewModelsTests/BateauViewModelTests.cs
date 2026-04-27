@@ -3,6 +3,7 @@ using Xunit;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using GestionCryo.Model;
+using GestionCryo.Model.Interfaces;
 using GestionCryo.Utils.Services;
 using GestionCryo.Utils.Services.Interfaces;
 using GestionCryo.ViewModel;
@@ -11,16 +12,15 @@ namespace GestionCryoTests.ViewModelTests
 {
     public class BateauViewModelTests
     {
-        private readonly Mock<IBateauDalService> _bateauDalServiceMock;
-        private readonly Mock<IMaterielDalService> _materielDalServiceMock;
+        private readonly Mock<IBateauDAL> _bateauDALMock;
+        private readonly Mock<IMaterielDAL> _materielDALMock;
         private readonly AfficheService _afficheService;
         private readonly BateauViewModel _viewModel;
 
         public BateauViewModelTests()
         {
-            _bateauDalServiceMock = new Mock<IBateauDalService>();
-            _materielDalServiceMock = new Mock<IMaterielDalService>();
-
+            _bateauDALMock = new Mock<IBateauDAL>();
+            _materielDALMock = new Mock<IMaterielDAL>();
             _afficheService = new AfficheService();
             _afficheService.BateauAffiche = new Bateau
             {
@@ -30,28 +30,27 @@ namespace GestionCryoTests.ViewModelTests
             };
 
             _viewModel = new BateauViewModel(
-                _bateauDalServiceMock.Object,
+                _bateauDALMock.Object,
                 _afficheService,
-                _materielDalServiceMock.Object
+                _materielDALMock.Object
             );
         }
 
         [Fact]
         public void Constructor_ShouldInitializeEtatFromBateauAffiche()
         {
-            Assert.Equal("Pret", _viewModel.Etat);
+            Assert.Equal(EtatBateau.Pret, _viewModel.EtatSelectionne);
         }
 
         [Fact]
-        public void Inventaire_ShouldReturnMaterielFromService()
+        public void Inventaire_ShouldReturnMaterielFromDAL()
         {
-            var fakeMateriels = new List<Materiel>
+            List<Materiel> fakeMateriels = new List<Materiel>
             {
                 new Materiel { Id = 1, Nom = "Oxygene" },
                 new Materiel { Id = 2, Nom = "Nourriture" }
             };
-
-            _materielDalServiceMock
+            _materielDALMock
                 .Setup(m => m.ObtenirMaterielParBateauId(1))
                 .Returns(fakeMateriels);
 
@@ -61,45 +60,29 @@ namespace GestionCryoTests.ViewModelTests
         }
 
         [Fact]
-        public void ModifierEtatCommand_CanExecute_ShouldReturnFalse_WhenEtatIsEmpty()
+        public void ModifierEtatCommand_CanExecute_ShouldReturnFalse_WhenBateauEnMission()
         {
-            _viewModel.Etat = "";
-
-            var result = _viewModel.ModifierEtatCommand.CanExecute(null);
-
+            _afficheService.BateauAffiche.Etat = EtatBateau.EnMission;
+            bool result = _viewModel.ModifierEtatCommand.CanExecute(null);
             Assert.False(result);
         }
 
         [Fact]
-        public void ModifierEtatCommand_CanExecute_ShouldReturnTrue_WhenEtatIsFilled()
+        public void ModifierEtatCommand_CanExecute_ShouldReturnTrue_WhenBateauArrime()
         {
-            _viewModel.Etat = "EnMaintenance";
-
-            var result = _viewModel.ModifierEtatCommand.CanExecute(null);
-
+            _afficheService.BateauAffiche.Etat = EtatBateau.Arrime;
+            bool result = _viewModel.ModifierEtatCommand.CanExecute(null);
             Assert.True(result);
         }
 
         [Fact]
-        public void ModifierEtatCommand_Execute_ShouldCallModifierEtat_WhenEtatIsValid()
+        public void ModifierEtatCommand_Execute_ShouldCallModifierEtat()
         {
-            _viewModel.Etat = "EnMaintenance";
-
+            _viewModel.EtatSelectionne = EtatBateau.EnMaintenance;
             _viewModel.ModifierEtatCommand.Execute(null);
-
-            _bateauDalServiceMock.Verify(
+            _bateauDALMock.Verify(
                 b => b.ModifierEtat(_afficheService.BateauAffiche, EtatBateau.EnMaintenance),
                 Times.Once);
-        }
-
-        [Fact]
-        public void ModifierEtatCommand_Execute_ShouldAddError_WhenEtatIsInvalid()
-        {
-            _viewModel.Etat = "kvublloi";
-
-            _viewModel.ModifierEtatCommand.Execute(null);
-
-            Assert.True(_viewModel.HasErrors);
         }
     }
 }

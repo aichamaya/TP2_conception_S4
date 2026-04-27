@@ -1,10 +1,8 @@
 ﻿using GestionCryo.Model;
-
+using GestionCryo.Model.Interfaces;
 using GestionCryo.Utils;
 using GestionCryo.Utils.Commands;
-
 using GestionCryo.Utils.Services.Interfaces;
-
 using System.Windows.Input;
 
 namespace GestionCryo.ViewModel
@@ -13,22 +11,48 @@ namespace GestionCryo.ViewModel
     {
         private readonly INavigationService _navigationService;
         private readonly IAfficheService _afficheService;
-        private readonly IStationDalService _stationDALService;
+        private readonly IStationDAL _stationDAL;
+        private readonly IConnectedUserService _connectedUserService;
+
         public INavigationService NavigationService
         {
             get => _navigationService;
         }
-        private readonly IConnectedUserService _connectedUserService;
+
         public IConnectedUserService ConnectedUserService
         {
             get => _connectedUserService;
         }
 
+        
+        public MainViewModel(INavigationService navigationService, IConnectedUserService connectedUserService, IAfficheService afficheService, IStationDAL stationDAL)
+        {
+            _navigationService = navigationService;
+            _connectedUserService = connectedUserService;
+            _afficheService = afficheService;
+            _stationDAL = stationDAL;
+            RetourAccueilCommande = new RelayCommand(GoHome, CanGoHome);
+            SeDeconnecterCommande = new RelayCommand(Deconnexion, CanDisconnect);
+            PageConnexionCommande = new RelayCommand(() => _navigationService.NavigateTo<ConnectUserViewModel>(), CanConnect);
+            _navigationService.NavigateTo<ConnectUserViewModel>();
+        }
+
+        
         public ICommand RetourAccueilCommande { get; set; }
+
+        
+        public ICommand SeDeconnecterCommande { get; set; }
+
+        
+        public ICommand PageConnexionCommande { get; set; }
+
+        
         public bool CanGoHome()
         {
-            return _connectedUserService.ConnectedUser != null; 
+            return _connectedUserService.ConnectedUser != null;
         }
+
+        
         public void GoHome()
         {
             if (_connectedUserService.ConnectedUser.Role == Role.Admin)
@@ -37,39 +61,28 @@ namespace GestionCryo.ViewModel
             }
             else
             {
-
-                _afficheService.StationAffichee = _stationDALService.ObtenirStationParId((int)(ConnectedUserService.ConnectedUser?.StationId));
+                _afficheService.StationAffichee = _stationDAL.ObtenirStationParId((int)ConnectedUserService.ConnectedUser?.StationId);
                 _navigationService.NavigateTo<HomeViewModel>();
             }
         }
-        public ICommand SeDeconnecterCommande { get; set; }
+
+        
         public bool CanDisconnect()
         {
             return _connectedUserService.ConnectedUser != null;
         }
-      
+
+        
         public void Deconnexion()
         {
             _connectedUserService.ConnectedUser = null;
             _navigationService.NavigateTo<ConnectUserViewModel>();
         }
-        public ICommand PageConnexionCommande { get; set; }
+
+        
         public bool CanConnect()
         {
             return _connectedUserService.ConnectedUser == null;
-        }
-        public MainViewModel(INavigationService navigationService, IConnectedUserService connectedUserService, IAfficheService afficheService, IStationDalService stationDALService)
-        {
-            _navigationService = navigationService;
-            _connectedUserService = connectedUserService;
-            _afficheService = afficheService;
-            _stationDALService = stationDALService;
-            //Initiation des boutons de navigation
-            RetourAccueilCommande = new RelayCommand( GoHome, CanGoHome);
-            SeDeconnecterCommande = new RelayCommand(Deconnexion, CanDisconnect);
-            PageConnexionCommande = new RelayCommand(() => _navigationService.NavigateTo<ConnectUserViewModel>(), CanConnect);
-            // Initial navigation to the ConnectUserViewModel
-            _navigationService.NavigateTo<ConnectUserViewModel>();
         }
     }
 }

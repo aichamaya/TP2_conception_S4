@@ -1,89 +1,78 @@
-﻿
-using GestionCryo.Model;
+﻿using GestionCryo.Model;
 using GestionCryo.Model.Interfaces;
 using GestionCryo.Utils;
 using GestionCryo.Utils.Commands;
 using GestionCryo.Utils.Services.Interfaces;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows.Input;
 
 namespace GestionCryo.ViewModel
 {
     public class BateauViewModel : BaseViewModel
     {
-
-        private readonly IBateauDalService _bateauDALService;
+        private readonly IBateauDAL _bateauDAL;
         private readonly IAfficheService _afficheService;
-        private readonly IMaterielDalService _materielDALService;
+        private readonly IMaterielDAL _materielDAL;
+
         public IAfficheService AfficheService
         {
-            get { return _afficheService; }
+            get => _afficheService;
         }
 
-        private string _etat;
-        public string Etat
-        {
-            get => _etat;
-            set
-            {
-                if (value != _etat)
-                {
-                    _etat = value;
-                    OnPropertyChanged();
-                    ValidateProperty(nameof(Etat), value);
-                }
-            }
-        }
         public string EtatActuelAffiche
         {
             get => _afficheService.BateauAffiche?.Etat.ToString() ?? "";
         }
+
         public ObservableCollection<Materiel> Inventaire
         {
-            get
+            get => new ObservableCollection<Materiel>(_materielDAL.ObtenirMaterielParBateauId(_afficheService.BateauAffiche.Id));
+        }
+
+        
+        //public List<EtatBateau> EtatsPossibles
+        //{
+        //    get => new List<EtatBateau> { EtatBateau.Pret, EtatBateau.Arrime, EtatBateau.EnMaintenance, EtatBateau.Inspection, EtatBateau.Reparation };
+        //}
+
+        private EtatBateau _etatSelectionne;
+        public EtatBateau EtatSelectionne
+        {
+            get => _etatSelectionne;
+            set
             {
-               return new ObservableCollection<Materiel>(_materielDALService.ObtenirMaterielParBateauId(_afficheService.BateauAffiche.Id));
+                if (_etatSelectionne != value)
+                {
+                    _etatSelectionne = value;
+                    OnPropertyChanged(nameof(EtatSelectionne));
+                }
             }
         }
-        public ICommand ModifierEtatCommand { get; set; }
-        public void ModifierEtat()
+
+        
+        public BateauViewModel(IBateauDAL bateauDAL, IAfficheService afficheService, IMaterielDAL materielDAL)
         {
-            ClearErrors(nameof(Etat));
-            if (Enum.TryParse<EtatBateau>(Etat, out var etat))
-            {
-                _bateauDALService.ModifierEtat(_afficheService.BateauAffiche, etat);
-               OnPropertyChanged(nameof(EtatActuelAffiche));
-            }
-            else
-            {
-                AddError(nameof(Etat), "L'etat n'est pas valide");
-                OnPropertyChanged(nameof(ErrorMessages));
-            }
-        }
-        public bool CanModifierEtat()
-        {
-            return !String.IsNullOrEmpty(Etat);
-        }
-        public BateauViewModel(IBateauDalService bateauDALService, IAfficheService afficheService, IMaterielDalService materielDALService)
-        {
-            _bateauDALService = bateauDALService;
+            _bateauDAL = bateauDAL;
             _afficheService = afficheService;
-            _materielDALService = materielDALService;
-            _etat =  _afficheService.BateauAffiche.Etat.ToString();
+            _materielDAL = materielDAL;
+            _etatSelectionne = _afficheService.BateauAffiche?.Etat ?? EtatBateau.Arrime;
             ModifierEtatCommand = new RelayCommand(ModifierEtat, CanModifierEtat);
         }
 
-        private void ValidateProperty(string propertyName, string value)
+        
+        public ICommand ModifierEtatCommand { get; set; }
+
+        
+        public void ModifierEtat()
         {
-                ClearErrors(propertyName);
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    AddError(propertyName, $"{propertyName} ne peut pas être vide.");
-                }
-                OnPropertyChanged(nameof(ErrorMessages));
+            _bateauDAL.ModifierEtat(_afficheService.BateauAffiche, EtatSelectionne);
+            OnPropertyChanged(nameof(EtatActuelAffiche));
         }
 
+        public bool CanModifierEtat()
+        {
+            return _afficheService.BateauAffiche != null && _afficheService.BateauAffiche.Etat != EtatBateau.EnMission;
+        }
     }
 }
