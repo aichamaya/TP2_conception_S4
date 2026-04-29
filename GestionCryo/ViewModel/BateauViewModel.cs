@@ -4,7 +4,7 @@ using GestionCryo.Utils;
 using GestionCryo.Utils.Commands;
 using GestionCryo.Utils.Services.Interfaces;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;//test
 using System.Windows.Input;
 
 namespace GestionCryo.ViewModel
