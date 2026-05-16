@@ -22,10 +22,15 @@ namespace GestionCryo.ViewModel
 
         public ObservableCollection<CommandePiece> Commandes
         {
-            get => new ObservableCollection<CommandePiece>(_commandePieceDAL.ObtenirCommandesParBateauId(Bateau.Id));
+            get
+            {
+                if (Bateau == null)
+                    return new ObservableCollection<CommandePiece>();
+                return new ObservableCollection<CommandePiece>(_commandePieceDAL.ObtenirCommandesParBateauId(Bateau.Id));
+            }
         }
 
-        private string _nomPiece;
+        private string _nomPiece = string.Empty;
         public string NomPiece
         {
             get => _nomPiece;
@@ -92,6 +97,9 @@ namespace GestionCryo.ViewModel
       
         private void Commander()
         {
+            if (Bateau == null)
+                return;
+
             CommandePiece commande = new CommandePiece
             {
                 NomPiece = NomPiece,
@@ -108,7 +116,7 @@ namespace GestionCryo.ViewModel
       
         private bool CanCommander()
         {
-            return !string.IsNullOrWhiteSpace(NomPiece) && Quantite > 0 && !HasErrors;
+            return Bateau != null && !string.IsNullOrWhiteSpace(NomPiece) && Quantite > 0 && !HasErrors;
         }
 
         

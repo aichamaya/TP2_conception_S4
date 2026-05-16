@@ -33,7 +33,12 @@ namespace GestionCryo.ViewModel
 
         public ObservableCollection<Materiel> Inventaire
         {
-            get => new ObservableCollection<Materiel>(_materielDAL.ObtenirMaterielParBateauId(_afficheService.BateauAffiche.Id));
+            get
+            {
+                if (Bateau == null)
+                    return new ObservableCollection<Materiel>();
+                return new ObservableCollection<Materiel>(_materielDAL.ObtenirMaterielParBateauId(Bateau.Id));
+            }
         }
 
         public List<EtatBateau> EtatsPossibles
@@ -76,7 +81,9 @@ namespace GestionCryo.ViewModel
        
         public void ModifierEtat()
         {
-            _bateauDAL.ModifierEtat(_afficheService.BateauAffiche, EtatSelectionne);
+            if (Bateau == null)
+                return;
+            _bateauDAL.ModifierEtat(Bateau, EtatSelectionne);
             OnPropertyChanged(nameof(EtatActuelAffiche));
         }
 

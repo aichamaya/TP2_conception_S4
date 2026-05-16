@@ -65,7 +65,7 @@ namespace GestionCryoTests.ViewModelTests
         [Fact]
         public void ModifierEtatCommand_CanExecute_ShouldReturnFalse_WhenBateauEnMission()
         {
-            _afficheService.BateauAffiche.Etat = EtatBateau.EnMission;
+            _afficheService.BateauAffiche!.Etat = EtatBateau.EnMission;
             bool result = _viewModel.ModifierEtatCommand.CanExecute(null);
             Assert.False(result);
         }
@@ -73,7 +73,7 @@ namespace GestionCryoTests.ViewModelTests
         [Fact]
         public void ModifierEtatCommand_CanExecute_ShouldReturnTrue_WhenBateauArrime()
         {
-            _afficheService.BateauAffiche.Etat = EtatBateau.Arrime;
+            _afficheService.BateauAffiche!.Etat = EtatBateau.Arrime;
             bool result = _viewModel.ModifierEtatCommand.CanExecute(null);
             Assert.True(result);
         }
@@ -84,13 +84,13 @@ namespace GestionCryoTests.ViewModelTests
             _viewModel.EtatSelectionne = EtatBateau.EnMaintenance;
             _viewModel.ModifierEtatCommand.Execute(null);
             _bateauDALMock.Verify(
-                b => b.ModifierEtat(_afficheService.BateauAffiche, EtatBateau.EnMaintenance),
+                b => b.ModifierEtat(_afficheService.BateauAffiche!, EtatBateau.EnMaintenance),
                 Times.Once);
         }
         [Fact]
         public void CommanderPiecesCommand_CanExecute_ShouldReturnFalse_WhenBateauPret()
         {
-            _afficheService.BateauAffiche.Etat = EtatBateau.Pret;
+            _afficheService.BateauAffiche!.Etat = EtatBateau.Pret;
             bool result = _viewModel.CommanderPiecesCommand.CanExecute(null);
             Assert.False(result);
         }
@@ -98,7 +98,7 @@ namespace GestionCryoTests.ViewModelTests
         [Fact]
         public void CommanderPiecesCommand_CanExecute_ShouldReturnTrue_WhenBateauInspection()
         {
-            _afficheService.BateauAffiche.Etat = EtatBateau.Inspection;
+            _afficheService.BateauAffiche!.Etat = EtatBateau.Inspection;
             bool result = _viewModel.CommanderPiecesCommand.CanExecute(null);
             Assert.True(result);
         }
