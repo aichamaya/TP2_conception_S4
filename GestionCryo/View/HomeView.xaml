@@ -8,221 +8,220 @@
              d:DesignWidth="800"
              Background="Transparent">
 
-    <UserControl.Resources>
-        <Style x:Key="SectionTitleStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="22"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="#0F172A"/>
-            <Setter Property="Margin" Value="0,0,0,16"/>
-        </Style>
+	<UserControl.Resources>
+		<Style x:Key="SectionTitleStyle" TargetType="TextBlock">
+			<Setter Property="FontSize" Value="22"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="Foreground" Value="#0F172A"/>
+			<Setter Property="Margin" Value="0,0,0,16"/>
+		</Style>
+		<Style x:Key="LabelStyle" TargetType="TextBlock">
+			<Setter Property="FontSize" Value="13"/>
+			<Setter Property="FontWeight" Value="SemiBold"/>
+			<Setter Property="Foreground" Value="#64748B"/>
+			<Setter Property="Margin" Value="0,0,0,4"/>
+		</Style>
+		<Style x:Key="ValueStyle" TargetType="TextBlock">
+			<Setter Property="FontSize" Value="15"/>
+			<Setter Property="Foreground" Value="#0F172A"/>
+			<Setter Property="FontWeight" Value="SemiBold"/>
+		</Style>
+		<Style x:Key="PrimaryButtonStyle" TargetType="Button">
+			<Setter Property="Height" Value="44"/>
+			<Setter Property="FontSize" Value="14"/>
+			<Setter Property="FontWeight" Value="SemiBold"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="Background" Value="#2563EB"/>
+			<Setter Property="BorderBrush" Value="Transparent"/>
+			<Setter Property="Cursor" Value="Hand"/>
+			<Setter Property="Padding" Value="18,8"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Border Background="{TemplateBinding Background}" CornerRadius="10">
+							<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+			<Style.Triggers>
+				<Trigger Property="IsMouseOver" Value="True">
+					<Setter Property="Background" Value="#1D4ED8"/>
+				</Trigger>
+				<Trigger Property="IsPressed" Value="True">
+					<Setter Property="Background" Value="#1E40AF"/>
+				</Trigger>
+				<Trigger Property="IsEnabled" Value="False">
+					<Setter Property="Background" Value="#93C5FD"/>
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+		<Style TargetType="ListViewItem">
+			<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+		</Style>
+	</UserControl.Resources>
 
-        <Style x:Key="LabelStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="#64748B"/>
-            <Setter Property="Margin" Value="0,0,0,4"/>
-        </Style>
+	<Grid Background="#F4F7FB">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="24"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="24"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
 
-        <Style x:Key="ValueStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="Foreground" Value="#0F172A"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-        </Style>
-
-        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
-            <Setter Property="Height" Value="44"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="#2563EB"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Padding" Value="18,8"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="10">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#1D4ED8"/>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#1E40AF"/>
-                </Trigger>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="#93C5FD"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style TargetType="ListViewItem">
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        </Style>
-    </UserControl.Resources>
-
-    <Grid Background="#F4F7FB">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="24"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <!-- En-tête -->
-        <Border Grid.Row="0"
+		<!-- En-tête -->
+		<Border Grid.Row="0"
                 Background="White"
                 CornerRadius="18"
                 Padding="24"
                 BorderBrush="#E2E8F0"
                 BorderThickness="1">
-            <StackPanel>
-                <TextBlock Text="Detais de la Station"
+			<StackPanel>
+				<TextBlock Text="Détails de la Station"
                            Style="{StaticResource SectionTitleStyle}"/>
-
-                <TextBlock Text="{Binding NomStation}"
+				<TextBlock Text="{Binding NomStation}"
                            FontSize="28"
                            FontWeight="Bold"
                            Foreground="#1E3A8A"
                            Margin="0,0,0,8"/>
-
-                <TextBlock Text="{Binding LocalisationStation}"
+				<TextBlock Text="{Binding LocalisationStation}"
                            FontSize="15"
                            Foreground="#475569"/>
-            </StackPanel>
-        </Border>
+			</StackPanel>
+		</Border>
 
-        <!-- Contenu -->
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="320"/>
-                <ColumnDefinition Width="24"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+		<!-- Contenu principal -->
+		<Grid Grid.Row="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="320"/>
+				<ColumnDefinition Width="24"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
 
-            <!-- Carte infos station -->
-            <Border Grid.Column="0"
+			<!-- Carte infos station -->
+			<Border Grid.Column="0"
                     Background="White"
                     CornerRadius="18"
                     Padding="22"
                     BorderBrush="#E2E8F0"
                     BorderThickness="1">
-                <StackPanel>
-                    <TextBlock Text="Informations de la station"
+				<StackPanel>
+					<TextBlock Text="Informations de la station"
                                Style="{StaticResource SectionTitleStyle}"/>
+					<Border Background="#F8FAFC" CornerRadius="12" Padding="16" Margin="0,0,0,14">
+						<StackPanel>
+							<TextBlock Text="Nom" Style="{StaticResource LabelStyle}"/>
+							<TextBlock Text="{Binding NomStation}" Style="{StaticResource ValueStyle}"/>
+						</StackPanel>
+					</Border>
+					<Border Background="#F8FAFC" CornerRadius="12" Padding="16" Margin="0,0,0,14">
+						<StackPanel>
+							<TextBlock Text="Localisation" Style="{StaticResource LabelStyle}"/>
+							<TextBlock Text="{Binding LocalisationStation}" Style="{StaticResource ValueStyle}" TextWrapping="Wrap"/>
+						</StackPanel>
+					</Border>
+					<Border Background="#F8FAFC" CornerRadius="12" Padding="16" Margin="0,0,0,14">
+						<StackPanel>
+							<TextBlock Text="Latitude" Style="{StaticResource LabelStyle}"/>
+							<TextBlock Text="{Binding LatitudeStation, StringFormat=F4}" Style="{StaticResource ValueStyle}"/>
+						</StackPanel>
+					</Border>
+					<Border Background="#F8FAFC" CornerRadius="12" Padding="16">
+						<StackPanel>
+							<TextBlock Text="Longitude" Style="{StaticResource LabelStyle}"/>
+							<TextBlock Text="{Binding LongitudeStation, StringFormat=F4}" Style="{StaticResource ValueStyle}"/>
+						</StackPanel>
+					</Border>
+				</StackPanel>
+			</Border>
 
-                    <Border Background="#F8FAFC"
-                            CornerRadius="12"
-                            Padding="16"
-                            Margin="0,0,0,14">
-                        <StackPanel>
-                            <TextBlock Text="Nom"
-                                       Style="{StaticResource LabelStyle}"/>
-                            <TextBlock Text="{Binding NomStation}"
-                                       Style="{StaticResource ValueStyle}"/>
-                        </StackPanel>
-                    </Border>
-
-                    <Border Background="#F8FAFC"
-                            CornerRadius="12"
-                            Padding="16"
-                            Margin="0,0,0,14">
-                        <StackPanel>
-                            <TextBlock Text="Localisation"
-                                       Style="{StaticResource LabelStyle}"/>
-                            <TextBlock Text="{Binding LocalisationStation}"
-                                       Style="{StaticResource ValueStyle}"
-                                       TextWrapping="Wrap"/>
-                        </StackPanel>
-                    </Border>
-
-                    <Border Background="#F8FAFC"
-                            CornerRadius="12"
-                            Padding="16"
-                            Margin="0,0,0,14">
-                        <StackPanel>
-                            <TextBlock Text="Latitude"
-                                       Style="{StaticResource LabelStyle}"/>
-                            <TextBlock Text="{Binding LatitudeStation, StringFormat=F4}"
-                                       Style="{StaticResource ValueStyle}"/>
-                        </StackPanel>
-                    </Border>
-
-                    <Border Background="#F8FAFC"
-                            CornerRadius="12"
-                            Padding="16">
-                        <StackPanel>
-                            <TextBlock Text="Longitude"
-                                       Style="{StaticResource LabelStyle}"/>
-                            <TextBlock Text="{Binding LongitudeStation, StringFormat=F4}"
-                                       Style="{StaticResource ValueStyle}"/>
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
-            </Border>
-
-            <!-- Liste des bateaux -->
-            <Border Grid.Column="2"
+			<!-- Liste des bateaux -->
+			<Border Grid.Column="2"
                     Background="White"
                     CornerRadius="18"
                     Padding="22"
                     BorderBrush="#E2E8F0"
                     BorderThickness="1">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="16"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="16"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Grid.Row="0">
-                        <TextBlock Text="Bateaux à proximité"
-                                   Style="{StaticResource SectionTitleStyle}"/>
-
-                        <TextBlock Text="Sélectionnez un bateau pour consulter ses détails."
-                                   FontSize="13"
-                                   Foreground="#64748B"/>
-                    </StackPanel>
-
-                    <ListView Grid.Row="2"
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="16"/>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="16"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<StackPanel Grid.Row="0">
+						<TextBlock Text="Bateaux à proximité" Style="{StaticResource SectionTitleStyle}"/>
+						<TextBlock Text="Sélectionnez un bateau pour consulter ses détails."
+                                   FontSize="13" Foreground="#64748B"/>
+					</StackPanel>
+					<ListView Grid.Row="2"
                               ItemsSource="{Binding BateauxStation}"
                               SelectedItem="{Binding SelectedBateau}"
                               BorderBrush="#E2E8F0"
                               BorderThickness="1"
                               Background="#FCFDFE">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Nom"
-                                                DisplayMemberBinding="{Binding Nom}"
-                                                Width="180"/>
-                                <GridViewColumn Header="Modèle"
-                                                DisplayMemberBinding="{Binding Modele}"
-                                                Width="160"/>
-                                <GridViewColumn Header="Classe"
-                                                DisplayMemberBinding="{Binding Classe}"
-                                                Width="120"/>
-                                <GridViewColumn Header="État"
-                                                DisplayMemberBinding="{Binding Etat}"
-                                                Width="120"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-
-                    <Button Grid.Row="4"
+						<ListView.View>
+							<GridView>
+								<GridViewColumn Header="Nom" DisplayMemberBinding="{Binding Nom}" Width="180"/>
+								<GridViewColumn Header="Modèle" DisplayMemberBinding="{Binding Modele}" Width="160"/>
+								<GridViewColumn Header="Classe" DisplayMemberBinding="{Binding Classe}" Width="120"/>
+								<GridViewColumn Header="État" DisplayMemberBinding="{Binding Etat}" Width="120"/>
+							</GridView>
+						</ListView.View>
+					</ListView>
+					<Button Grid.Row="4"
                             Content="Voir les détails du bateau"
                             Width="220"
                             HorizontalAlignment="Left"
                             Command="{Binding VoirDetailsBateauCommand}"
                             Style="{StaticResource PrimaryButtonStyle}"/>
-                </Grid>
-            </Border>
-        </Grid>
-    </Grid>
+				</Grid>
+			</Border>
+		</Grid>
+
+		<!-- Section Alertes -->
+		<Border Grid.Row="4"
+                Background="#FEF2F2"
+                CornerRadius="18"
+                Padding="22"
+                BorderBrush="#FECACA"
+                BorderThickness="1">
+			<StackPanel>
+				<TextBlock Text="⚠️ Alertes actives"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Foreground="#991B1B"
+                           Margin="0,0,0,12"/>
+				<ListView ItemsSource="{Binding Alertes}"
+                          BorderThickness="0"
+                          Background="Transparent"
+                          MaxHeight="120">
+					<ListView.View>
+						<GridView>
+							<GridViewColumn Header="Bateau" DisplayMemberBinding="{Binding NomBateau}" Width="150"/>
+							<GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" Width="150"/>
+							<GridViewColumn Header="Message" DisplayMemberBinding="{Binding Message}" Width="400"/>
+						</GridView>
+					</ListView.View>
+				</ListView>
+				<TextBlock Text="Aucune alerte active ✅"
+                           FontSize="14"
+                           Foreground="#16A34A"
+                           Margin="0,8,0,0">
+					<TextBlock.Style>
+						<Style TargetType="TextBlock">
+							<Setter Property="Visibility" Value="Collapsed"/>
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding Alertes.Count}" Value="0">
+									<Setter Property="Visibility" Value="Visible"/>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</TextBlock.Style>
+				</TextBlock>
+			</StackPanel>
+		</Border>
+	</Grid>
 </UserControl>
