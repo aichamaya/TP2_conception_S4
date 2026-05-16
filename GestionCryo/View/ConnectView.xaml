@@ -89,19 +89,18 @@
                 <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
                          Style="{StaticResource LoginTextBoxStyle}"/>
 
-                <TextBlock Text="Mot de passe"
-                           Style="{StaticResource LoginLabelStyle}"/>
+				<TextBlock Text="Mot de passe"
+			Style="{StaticResource LoginLabelStyle}"/>
 
-                <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
-                         Style="{StaticResource LoginTextBoxStyle}"/>
-
-                <TextBlock Text="{Binding ErrorMessages}"
-                           Foreground="#DC2626"
-                           FontSize="13"
-                           TextWrapping="Wrap"
-                           Margin="0,0,0,18"
-                           HorizontalAlignment="Center"
-                           TextAlignment="Center"/>
+				<PasswordBox x:Name="PasswordBox"
+							 Height="42"
+							 FontSize="14"
+							 Padding="12,8"
+							 Background="#F8FAFC"
+							 BorderBrush="#CBD5E1"
+							 BorderThickness="1.5"
+							 Margin="0,0,0,18"
+							 PasswordChanged="PasswordBox_PasswordChanged"/>
 
                 <Button Content="Se connecter"
                         Command="{Binding ConnectCommand}"
