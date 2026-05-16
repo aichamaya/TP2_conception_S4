@@ -87,5 +87,20 @@ namespace GestionCryoTests.ViewModelTests
                 b => b.ModifierEtat(_afficheService.BateauAffiche, EtatBateau.EnMaintenance),
                 Times.Once);
         }
+        [Fact]
+        public void CommanderPiecesCommand_CanExecute_ShouldReturnFalse_WhenBateauPret()
+        {
+            _afficheService.BateauAffiche.Etat = EtatBateau.Pret;
+            bool result = _viewModel.CommanderPiecesCommand.CanExecute(null);
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void CommanderPiecesCommand_CanExecute_ShouldReturnTrue_WhenBateauInspection()
+        {
+            _afficheService.BateauAffiche.Etat = EtatBateau.Inspection;
+            bool result = _viewModel.CommanderPiecesCommand.CanExecute(null);
+            Assert.True(result);
+        }
     }
 }
