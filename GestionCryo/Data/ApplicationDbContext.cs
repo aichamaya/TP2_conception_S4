@@ -20,7 +20,7 @@ namespace GestionCryo.Data
         public DbSet<Station> Stations { get; set; }
         public DbSet<Bateau> Bateaux { get; set; }
         public DbSet<Parcours> Parcours { get; set; }
-
+        public DbSet<CommandePiece> CommandesPieces { get; set; }
         public DbSet<Materiel> Materiels { get; set; }
 
 

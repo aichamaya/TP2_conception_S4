@@ -1,4 +1,5 @@
 ﻿using System;
+using GestionCryo.Model;
 
 namespace GestionCryo.Model
 {
