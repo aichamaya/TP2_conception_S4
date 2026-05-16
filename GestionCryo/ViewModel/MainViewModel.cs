@@ -3,6 +3,7 @@ using GestionCryo.Model.Interfaces;
 using GestionCryo.Utils;
 using GestionCryo.Utils.Commands;
 using GestionCryo.Utils.Services.Interfaces;
+using System.Reflection;
 using System.Windows.Input;
 
 namespace GestionCryo.ViewModel
@@ -22,6 +23,15 @@ namespace GestionCryo.ViewModel
         public IConnectedUserService ConnectedUserService
         {
             get => _connectedUserService;
+        }
+
+        public string ApplicationVersion
+        {
+            get
+            {
+                Version? version = Assembly.GetExecutingAssembly().GetName().Version;
+                return version == null ? "Version 1.0.0" : $"Version {version.Major}.{version.Minor}.{version.Build}";
+            }
         }
 
         

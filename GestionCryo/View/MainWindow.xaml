@@ -92,6 +92,12 @@
                     <Button Content="Se connecter"
                             Style="{StaticResource SecondarySidebarButtonStyle}"
                             Command="{Binding PageConnexionCommande}"/>
+
+                    <TextBlock Text="{Binding ApplicationVersion}"
+                               Foreground="#94A3B8"
+                               FontSize="12"
+                               HorizontalAlignment="Center"
+                               Margin="0,12,0,0"/>
                 </StackPanel>
 
                 <!-- Haut sidebar -->
