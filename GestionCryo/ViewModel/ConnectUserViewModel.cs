@@ -3,6 +3,8 @@ using GestionCryo.Model.Interfaces;
 using GestionCryo.Utils;
 using GestionCryo.Utils.Commands;
 using GestionCryo.Utils.Services.Interfaces;
+using System;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace GestionCryo.ViewModel
@@ -59,7 +61,9 @@ namespace GestionCryo.ViewModel
         
         public ICommand ConnectCommand { get; set; }
 
-        
+        public string ErrorConnexion { get; set; }
+
+      
         private bool CanConnect()
         {
             return !string.IsNullOrWhiteSpace(Username)
@@ -70,25 +74,39 @@ namespace GestionCryo.ViewModel
         
         private void Connect()
         {
-            ClearErrors(nameof(Username));
-            ClearErrors(nameof(Password));
-            Utilisateur? user = _utilisateurDAL.TrouverParNomEtMotDePasse(Username, Password);
-            if (user != null)
+            try
             {
-                _connectedUserService.ConnectedUser = user;
-                if (user.Role == Role.Admin)
+                ClearErrors(nameof(Username));
+                ClearErrors(nameof(Password));
+
+                Utilisateur? user = _utilisateurDAL.TrouverParNomEtMotDePasse(Username, Password);
+
+                if (user != null)
                 {
-                    _navigationService.NavigateTo<AdminHomeViewModel>();
+                    _connectedUserService.ConnectedUser = user;
+                    Trace.TraceInformation($"Connexion réussie pour l'utilisateur : {user.Username}");
+
+                    if (user.Role == Role.Admin)
+                    {
+                        _navigationService.NavigateTo<AdminHomeViewModel>();
+                    }
+                    else
+                    {
+                        _afficheService.StationAffichee = _stationDAL.ObtenirStationParId((int)user.StationId);
+                        _navigationService.NavigateTo<HomeViewModel>();
+                    }
                 }
                 else
                 {
-                    _afficheService.StationAffichee = _stationDAL.ObtenirStationParId((int)user.StationId);
-                    _navigationService.NavigateTo<HomeViewModel>();
+                    Trace.TraceWarning($"Tentative de connexion échouée pour l'utilisateur : {Username}");
+                    AddError(nameof(ErrorConnexion), "Nom d'utilisateur ou mot de passe incorrect.");
+                    OnPropertyChanged(nameof(ErrorMessages));
                 }
             }
-            else
+            catch (Exception ex)
             {
-                AddError(nameof(ErrorConnexion), "Nom d'utilisateur ou mot de passe incorrect.");
+                Trace.TraceError($"Erreur lors de la connexion : {ex.Message}");
+                AddError(nameof(ErrorConnexion), "Une erreur est survenue. Veuillez réessayer.");
                 OnPropertyChanged(nameof(ErrorMessages));
             }
         }
@@ -99,12 +117,8 @@ namespace GestionCryo.ViewModel
             ClearErrors(propertyName);
             ClearErrors(nameof(ErrorConnexion));
             if (string.IsNullOrWhiteSpace(value))
-            {
                 AddError(propertyName, $"{propertyName} ne peut pas être vide.");
-            }
             OnPropertyChanged(nameof(ErrorMessages));
         }
-
-        public string ErrorConnexion { get; set; }
     }
 }
