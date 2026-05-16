@@ -1,9 +1,10 @@
+using GestionCryo.Model;
+using System.Collections.Generic;
+
 namespace GestionCryo.Utils.Services.Interfaces
 {
     public interface IAlerteService
     {
-        void AfficherInformation(string message);
-        void AfficherErreur(string message);
-        bool Confirmer(string message);
+        List<Alerte> ObtenirAlertes(int stationId);
     }
 }

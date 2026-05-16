@@ -68,6 +68,7 @@ namespace GestionCryo
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IConnectedUserService, ConnectedUserService>();
             services.AddSingleton<IAfficheService, AfficheService>();
+            services.AddSingleton<IAlerteService, AlerteService>();
         }
 
         protected override void OnStartup(StartupEventArgs e)

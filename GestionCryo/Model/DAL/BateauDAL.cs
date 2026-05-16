@@ -1,6 +1,8 @@
-﻿
-using GestionCryo.Data;
+﻿using GestionCryo.Data;
 using GestionCryo.Model.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GestionCryo.Model.DAL
 {
@@ -22,6 +24,15 @@ namespace GestionCryo.Model.DAL
                 bateauBd.Etat = nouvelEtat;
                 _context.SaveChanges();
             }
+        }
+
+        
+        public List<Bateau> ObtenirBateauxParStationId(int stationId)
+        {
+            return _context.Bateaux
+                .Include(b => b.ParcoursEnCours)
+                .Where(b => b.StationProcheId == stationId)
+                .ToList();
         }
     }
 }
