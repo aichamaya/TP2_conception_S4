@@ -14,6 +14,7 @@ namespace GestionCryoTests.ViewModelTests
     {
         private readonly Mock<IBateauDAL> _bateauDALMock;
         private readonly Mock<IMaterielDAL> _materielDALMock;
+        private readonly Mock<INavigationService> _navigationServiceMock;
         private readonly AfficheService _afficheService;
         private readonly BateauViewModel _viewModel;
 
@@ -21,6 +22,7 @@ namespace GestionCryoTests.ViewModelTests
         {
             _bateauDALMock = new Mock<IBateauDAL>();
             _materielDALMock = new Mock<IMaterielDAL>();
+            _navigationServiceMock = new Mock<INavigationService>();
             _afficheService = new AfficheService();
             _afficheService.BateauAffiche = new Bateau
             {
@@ -32,7 +34,8 @@ namespace GestionCryoTests.ViewModelTests
             _viewModel = new BateauViewModel(
                 _bateauDALMock.Object,
                 _afficheService,
-                _materielDALMock.Object
+                _materielDALMock.Object,
+                _navigationServiceMock.Object
             );
         }
 

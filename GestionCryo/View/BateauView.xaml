@@ -158,6 +158,9 @@
                                         Width="170"
                                         Command="{Binding ModifierEtatCommand}"
                                         Style="{StaticResource PrimaryButtonStyle}"/>
+								<Button Content="Commander des pièces"
+        Command="{Binding CommanderPiecesCommand}"
+        Width="200" HorizontalAlignment="Left" Margin="0 10 0 0"/>
                             </StackPanel>
                         </Grid>
                     </Border>

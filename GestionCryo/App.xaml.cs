@@ -40,6 +40,7 @@ namespace GestionCryo
             services.AddSingleton<ConnectUserViewModel>();
             services.AddSingleton<AdminHomeViewModel>();
             services.AddSingleton<BateauViewModel>();
+            services.AddSingleton<CommandePieceViewModel>();
             services.AddSingleton<Func<Type, BaseViewModel>>(serviceProvider =>
             {
                 BaseViewModel ViewModelFactory(Type viewModelType)
@@ -58,6 +59,7 @@ namespace GestionCryo
             services.AddSingleton<IStationDAL, StationDAL>();
             services.AddSingleton<IMaterielDAL, MaterielDAL>();
             services.AddDbContext<ApplicationDbContext>();
+            services.AddSingleton<ICommandePieceDAL, CommandePieceDAL>();
         }
 
         
