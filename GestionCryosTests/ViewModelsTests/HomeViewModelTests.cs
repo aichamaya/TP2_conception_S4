@@ -11,17 +11,20 @@ namespace GestionCryoTests.ViewModelTests
     public class HomeViewModelTests
     {
         private readonly Mock<INavigationService> _navigationServiceMock;
+        private readonly Mock<IAlerteService> _alerteServiceMock;
         private readonly AfficheService _afficheService;
         private readonly HomeViewModel _viewModel;
 
         public HomeViewModelTests()
         {
             _navigationServiceMock = new Mock<INavigationService>();
+            _alerteServiceMock = new Mock<IAlerteService>();
             _afficheService = new AfficheService();
 
             _viewModel = new HomeViewModel(
                 _navigationServiceMock.Object,
-                _afficheService
+                _afficheService,
+                _alerteServiceMock.Object
             );
         }
 

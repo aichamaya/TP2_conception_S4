@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GestionCryo"
+        xmlns:vm="clr-namespace:GestionCryo.ViewModel"
+        xmlns:v="clr-namespace:GestionCryo.View"
         mc:Ignorable="d"
         Title="GestionCryo"
         WindowState="Maximized"
@@ -11,6 +13,10 @@
         Background="#F4F7FB">
 
     <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:CommandePieceViewModel}">
+            <v:CommandePieceView/>
+        </DataTemplate>
+
         <Style x:Key="SidebarButtonStyle" TargetType="Button">
             <Setter Property="Margin" Value="0,0,0,12"/>
             <Setter Property="Height" Value="44"/>

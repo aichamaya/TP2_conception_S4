@@ -40,6 +40,7 @@ namespace GestionCryo
             services.AddSingleton<ConnectUserViewModel>();
             services.AddSingleton<AdminHomeViewModel>();
             services.AddSingleton<BateauViewModel>();
+            services.AddSingleton<CommandePieceViewModel>();
             services.AddSingleton<Func<Type, BaseViewModel>>(serviceProvider =>
             {
                 BaseViewModel ViewModelFactory(Type viewModelType)
@@ -58,6 +59,7 @@ namespace GestionCryo
             services.AddSingleton<IStationDAL, StationDAL>();
             services.AddSingleton<IMaterielDAL, MaterielDAL>();
             services.AddDbContext<ApplicationDbContext>();
+            services.AddSingleton<ICommandePieceDAL, CommandePieceDAL>();
         }
 
         
@@ -66,6 +68,7 @@ namespace GestionCryo
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IConnectedUserService, ConnectedUserService>();
             services.AddSingleton<IAfficheService, AfficheService>();
+            services.AddSingleton<IAlerteService, AlerteService>();
         }
 
         protected override void OnStartup(StartupEventArgs e)

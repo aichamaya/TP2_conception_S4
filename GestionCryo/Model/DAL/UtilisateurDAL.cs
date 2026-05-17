@@ -1,4 +1,5 @@
-﻿using GestionCryo.Data;
+﻿using BCrypt.Net;
+using GestionCryo.Data;
 using GestionCryo.Model.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,11 +16,16 @@ namespace GestionCryo.Model.DAL
 
         public Utilisateur? TrouverParNomEtMotDePasse(string username, string password)
         {
-            return _context.Users
-          .Include(x => x.Station)
-          .ThenInclude(s => s.Bateaux)
-          .ThenInclude(b => b.ParcoursEnCours)
-          .FirstOrDefault(u => u.Username == username && u.Password == password);
+            Utilisateur? utilisateur = _context.Users
+                .Include(x => x.Station)
+                .ThenInclude(s => s.Bateaux)
+                .ThenInclude(b => b.ParcoursEnCours)
+                .FirstOrDefault(u => u.Username == username);
+
+            if (utilisateur != null && BCrypt.Net.BCrypt.Verify(password, utilisateur.Password))
+                return utilisateur;
+
+            return null;
         }
     }
 }

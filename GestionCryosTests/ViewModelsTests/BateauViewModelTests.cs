@@ -14,6 +14,7 @@ namespace GestionCryoTests.ViewModelTests
     {
         private readonly Mock<IBateauDAL> _bateauDALMock;
         private readonly Mock<IMaterielDAL> _materielDALMock;
+        private readonly Mock<INavigationService> _navigationServiceMock;
         private readonly AfficheService _afficheService;
         private readonly BateauViewModel _viewModel;
 
@@ -21,6 +22,7 @@ namespace GestionCryoTests.ViewModelTests
         {
             _bateauDALMock = new Mock<IBateauDAL>();
             _materielDALMock = new Mock<IMaterielDAL>();
+            _navigationServiceMock = new Mock<INavigationService>();
             _afficheService = new AfficheService();
             _afficheService.BateauAffiche = new Bateau
             {
@@ -32,7 +34,8 @@ namespace GestionCryoTests.ViewModelTests
             _viewModel = new BateauViewModel(
                 _bateauDALMock.Object,
                 _afficheService,
-                _materielDALMock.Object
+                _materielDALMock.Object,
+                _navigationServiceMock.Object
             );
         }
 
@@ -62,7 +65,7 @@ namespace GestionCryoTests.ViewModelTests
         [Fact]
         public void ModifierEtatCommand_CanExecute_ShouldReturnFalse_WhenBateauEnMission()
         {
-            _afficheService.BateauAffiche.Etat = EtatBateau.EnMission;
+            _afficheService.BateauAffiche!.Etat = EtatBateau.EnMission;
             bool result = _viewModel.ModifierEtatCommand.CanExecute(null);
             Assert.False(result);
         }
@@ -70,7 +73,7 @@ namespace GestionCryoTests.ViewModelTests
         [Fact]
         public void ModifierEtatCommand_CanExecute_ShouldReturnTrue_WhenBateauArrime()
         {
-            _afficheService.BateauAffiche.Etat = EtatBateau.Arrime;
+            _afficheService.BateauAffiche!.Etat = EtatBateau.Arrime;
             bool result = _viewModel.ModifierEtatCommand.CanExecute(null);
             Assert.True(result);
         }
@@ -81,8 +84,23 @@ namespace GestionCryoTests.ViewModelTests
             _viewModel.EtatSelectionne = EtatBateau.EnMaintenance;
             _viewModel.ModifierEtatCommand.Execute(null);
             _bateauDALMock.Verify(
-                b => b.ModifierEtat(_afficheService.BateauAffiche, EtatBateau.EnMaintenance),
+                b => b.ModifierEtat(_afficheService.BateauAffiche!, EtatBateau.EnMaintenance),
                 Times.Once);
+        }
+        [Fact]
+        public void CommanderPiecesCommand_CanExecute_ShouldReturnFalse_WhenBateauPret()
+        {
+            _afficheService.BateauAffiche!.Etat = EtatBateau.Pret;
+            bool result = _viewModel.CommanderPiecesCommand.CanExecute(null);
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void CommanderPiecesCommand_CanExecute_ShouldReturnTrue_WhenBateauInspection()
+        {
+            _afficheService.BateauAffiche!.Etat = EtatBateau.Inspection;
+            bool result = _viewModel.CommanderPiecesCommand.CanExecute(null);
+            Assert.True(result);
         }
     }
 }

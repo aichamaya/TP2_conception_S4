@@ -1,4 +1,5 @@
-﻿namespace GestionCryo.Model
+﻿using GestionCryo.Model;
+namespace GestionCryo.Model
 {
     public class Materiel
     {

@@ -1,0 +1,53 @@
+<UserControl x:Class="GestionCryo.View.CommandePieceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+	<Grid Margin="20">
+		<StackPanel>
+			<TextBlock Text="Commander une pièce"
+                       FontSize="24" FontWeight="Bold" Margin="0 0 0 10"/>
+
+			<TextBlock Text="{Binding Bateau.Nom, StringFormat='Bateau : {0}'}"
+                       FontSize="16" Margin="0 0 0 20"/>
+
+			<TextBlock Text="Nom de la pièce" FontWeight="Bold" Margin="0 0 0 5"/>
+			<TextBox Text="{Binding NomPiece, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="0 0 0 10"/>
+
+			<TextBlock Text="Quantité" FontWeight="Bold" Margin="0 0 0 5"/>
+			<TextBox Text="{Binding Quantite, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="0 0 0 10"/>
+
+			<TextBlock Text="Statut" FontWeight="Bold" Margin="0 0 0 5"/>
+			<ComboBox ItemsSource="{Binding StatutsPossibles}"
+                      SelectedItem="{Binding StatutSelectionne}"
+                      Margin="0 0 0 10"/>
+
+			<TextBlock Text="{Binding ErrorMessages}" Foreground="Red" Margin="0 0 0 10"/>
+
+			<Button Content="Commander"
+                    Command="{Binding CommanderCommand}"
+                    Width="150" HorizontalAlignment="Left" Margin="0 0 0 20"/>
+
+			<TextBlock Text="Commandes en cours"
+                       FontSize="16" FontWeight="Bold" Margin="0 0 0 10"/>
+
+			<ListView ItemsSource="{Binding Commandes}" Height="150">
+				<ListView.View>
+					<GridView>
+						<GridViewColumn Header="Pièce" DisplayMemberBinding="{Binding NomPiece}" Width="150"/>
+						<GridViewColumn Header="Quantité" DisplayMemberBinding="{Binding Quantite}" Width="80"/>
+						<GridViewColumn Header="Statut" DisplayMemberBinding="{Binding Statut}" Width="100"/>
+						<GridViewColumn Header="Date" DisplayMemberBinding="{Binding DateCommande, StringFormat='{}{0:dd/MM/yyyy}'}" Width="100"/>
+					</GridView>
+				</ListView.View>
+			</ListView>
+
+			<Button Content="Retour"
+                    Command="{Binding RetourCommand}"
+                    Width="150" HorizontalAlignment="Left" Margin="0 10 0 0"/>
+		</StackPanel>
+	</Grid>
+</UserControl>

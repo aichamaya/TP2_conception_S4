@@ -144,20 +144,24 @@
                                 <TextBlock Text="État actuel affiché" Style="{StaticResource LabelStyle}"/>
                                 <TextBlock Text="{Binding EtatActuelAffiche}" Style="{StaticResource ValueStyle}"/>
 
-                                <TextBlock Text="Nouvel état" Style="{StaticResource LabelStyle}"/>
-                                <TextBox Text="{Binding Etat, UpdateSourceTrigger=PropertyChanged}"
-                                         Style="{StaticResource EditTextBoxStyle}"/>
-
-                                <TextBlock Text="{Binding ErrorMessages}"
-                                           Foreground="#DC2626"
-                                           FontSize="13"
-                                           TextWrapping="Wrap"
-                                           Margin="0,0,0,12"/>
+								<TextBlock Text="Nouvel état" Style="{StaticResource LabelStyle}"/>
+								<ComboBox ItemsSource="{Binding EtatsPossibles}"
+										  SelectedItem="{Binding EtatSelectionne}"
+										  Height="40"
+										  Margin="0,0,0,14"
+										  FontSize="14"
+										  Padding="10,6"
+										  Background="#F8FAFC"
+										  BorderBrush="#CBD5E1"
+										  BorderThickness="1.5"/>
 
                                 <Button Content="Modifier l'état"
                                         Width="170"
                                         Command="{Binding ModifierEtatCommand}"
                                         Style="{StaticResource PrimaryButtonStyle}"/>
+								<Button Content="Commander des pièces"
+        Command="{Binding CommanderPiecesCommand}"
+        Width="200" HorizontalAlignment="Left" Margin="0 10 0 0"/>
                             </StackPanel>
                         </Grid>
                     </Border>
