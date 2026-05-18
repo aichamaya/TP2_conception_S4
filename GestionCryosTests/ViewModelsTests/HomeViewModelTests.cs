@@ -5,6 +5,7 @@ using GestionCryo.Model;
 using GestionCryo.Utils.Services;
 using GestionCryo.Utils.Services.Interfaces;
 using GestionCryo.ViewModel;
+using GestionCryo.Model.Interfaces;
 
 namespace GestionCryoTests.ViewModelTests
 {
@@ -12,20 +13,50 @@ namespace GestionCryoTests.ViewModelTests
     {
         private readonly Mock<INavigationService> _navigationServiceMock;
         private readonly Mock<IAlerteService> _alerteServiceMock;
+        private readonly Mock<IStationDAL> _stationDal;
         private readonly AfficheService _afficheService;
         private readonly HomeViewModel _viewModel;
+
 
         public HomeViewModelTests()
         {
             _navigationServiceMock = new Mock<INavigationService>();
             _alerteServiceMock = new Mock<IAlerteService>();
             _afficheService = new AfficheService();
-
+            _stationDal = new Mock<IStationDAL>();
             _viewModel = new HomeViewModel(
                 _navigationServiceMock.Object,
                 _afficheService,
-                _alerteServiceMock.Object
+                _alerteServiceMock.Object,
+                _stationDal.Object
             );
+        }
+        [Fact]
+        public void MissionsStation_ShouldReturnEmpty_WhenNoStation()
+        {
+            var result = _viewModel.MissionsStation;
+
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public void MissionsStation_ShouldReturnMissions_WhenStationExists()
+        {
+            _afficheService.StationAffichee = new Station { Id = 1, Nom = "Station Test" };
+
+            List<Mission> missions = new List<Mission>
+    {
+        new Mission { Id = 1, Cargo = "Cargo 1" },
+        new Mission { Id = 2, Cargo = "Cargo 2" }
+    };
+
+            _stationDal
+                .Setup(s => s.ObtenirMissionsParStationId(1))
+                .Returns(missions);
+
+            var result = _viewModel.MissionsStation;
+
+            Assert.Equal(2, result.Count);
         }
 
         [Fact]
@@ -104,6 +135,38 @@ namespace GestionCryoTests.ViewModelTests
             _navigationServiceMock.Verify(
                 n => n.NavigateTo<BateauViewModel>(),
                 Times.Once);
+        }
+        [Fact]
+        public void Alertes_ShouldReturnEmpty_WhenNoStation()
+        {
+            var result = _viewModel.Alertes;
+
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public void Alertes_ShouldReturnAlertes_WhenStationExists()
+        {
+            _afficheService.StationAffichee = new Station { Id = 1, Nom = "Station Test" };
+
+            List<Alerte> alertes = new List<Alerte>
+    {
+        new Alerte
+        {
+            NomBateau = "Bateau test",
+            Type = "Inspection",
+            Message = "Le bateau est en inspection."
+        }
+    };
+
+            _alerteServiceMock
+                .Setup(a => a.ObtenirAlertes(1))
+                .Returns(alertes);
+
+            var result = _viewModel.Alertes;
+
+            Assert.Single(result);
+            Assert.Equal("Inspection", result[0].Type);
         }
     }
 }
