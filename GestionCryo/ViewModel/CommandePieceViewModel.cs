@@ -108,8 +108,8 @@ namespace GestionCryo.ViewModel
                 BateauId = Bateau.Id
             };
             _commandePieceDAL.AjouterCommande(commande);
-            NomPiece = string.Empty;
-            Quantite = 1;
+            _nomPiece = string.Empty;
+            _quantite = 1;
             OnPropertyChanged(nameof(Commandes));
         }
 
