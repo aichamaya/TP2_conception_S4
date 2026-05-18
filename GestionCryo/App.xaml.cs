@@ -4,6 +4,7 @@ using GestionCryo.Model.Interfaces;
 using GestionCryo.Utils;
 using GestionCryo.Utils.Services;
 using GestionCryo.Utils.Services.Interfaces;
+using GestionCryo.View;
 using GestionCryo.ViewModel;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
@@ -41,6 +42,8 @@ namespace GestionCryo
             services.AddSingleton<AdminHomeViewModel>();
             services.AddSingleton<BateauViewModel>();
             services.AddSingleton<CommandePieceViewModel>();
+            services.AddSingleton<CommandeMissionViewModel>();
+            services.AddSingleton<CommandeMissionView>();
             services.AddSingleton<Func<Type, BaseViewModel>>(serviceProvider =>
             {
                 BaseViewModel ViewModelFactory(Type viewModelType)
@@ -58,6 +61,7 @@ namespace GestionCryo
             services.AddSingleton<IBateauDAL, BateauDAL>();
             services.AddSingleton<IStationDAL, StationDAL>();
             services.AddSingleton<IMaterielDAL, MaterielDAL>();
+            services.AddSingleton<IMissionDAL, MissionDAL>();
             services.AddDbContext<ApplicationDbContext>();
             services.AddSingleton<ICommandePieceDAL, CommandePieceDAL>();
         }
