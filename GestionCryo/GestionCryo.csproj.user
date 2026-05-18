@@ -13,6 +13,9 @@
     <Compile Update="View\BateauView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\CommandeMissionView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\ConnectView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

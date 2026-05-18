@@ -14,7 +14,7 @@ namespace GestionCryo.ViewModel
         private readonly INavigationService _navigationService;
         private readonly IAfficheService _afficheService;
         private readonly IAlerteService _alerteService;
-
+        private readonly IStationDAL _stationDAL;
         public string NomStation
         {
             get => _afficheService.StationAffichee != null ? $"Station : {_afficheService.StationAffichee.Nom}" : "Aucune station assignée";
@@ -58,6 +58,19 @@ namespace GestionCryo.ViewModel
                 return new ObservableCollection<Alerte>();
             }
         }
+        public ObservableCollection<Mission> MissionsStation
+        {
+            get
+            {
+                if (_afficheService.StationAffichee != null)
+                {
+                    List<Mission> missions = _stationDAL.ObtenirMissionsParStationId(_afficheService.StationAffichee.Id);
+                    return new ObservableCollection<Mission>(missions);
+                }
+
+                return new ObservableCollection<Mission>();
+            }
+        }
 
         private Bateau? _selectedBateau;
         public Bateau? SelectedBateau
@@ -73,12 +86,13 @@ namespace GestionCryo.ViewModel
             }
         }
 
-        
-        public HomeViewModel(INavigationService navigationService, IAfficheService afficheService, IAlerteService alerteService)
+
+        public HomeViewModel(INavigationService navigationService, IAfficheService afficheService, IAlerteService alerteService, IStationDAL stationDAL)
         {
             _navigationService = navigationService;
             _afficheService = afficheService;
             _alerteService = alerteService;
+            _stationDAL = stationDAL;
             VoirDetailsBateauCommand = new RelayCommand(VoirDetailsBateau, CanVoirDetailsBateau);
         }
 

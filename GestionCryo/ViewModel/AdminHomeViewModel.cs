@@ -33,8 +33,12 @@ namespace GestionCryo.ViewModel
                 }
             }
         }
+        public ICommand CreerMissionCommand { get; set; }
+        public void CreerMission()
+        {
+            _navigationService.NavigateTo<CommandeMissionViewModel>();
+        }
 
-       
         public AdminHomeViewModel(INavigationService navigationService, IAfficheService afficheService, IStationDAL stationDAL)
         {
             _navigationService = navigationService;
@@ -42,6 +46,7 @@ namespace GestionCryo.ViewModel
             _afficheService = afficheService;
             _stations = new ObservableCollection<Station>(_stationDAL.ObtenirToutesLesStations());
             VoirDetailsStationCommand = new RelayCommand(VoirDetailsStation, CanVoirDetailsStation);
+            CreerMissionCommand = new RelayCommand(CreerMission);
         }
 
         

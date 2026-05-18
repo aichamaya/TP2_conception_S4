@@ -22,6 +22,9 @@
             <DataTemplate DataType="{x:Type viewModel:BateauViewModel}">
                 <view:BateauView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:CommandeMissionViewModel}">
+                <view:CommandeMissionView/>
+            </DataTemplate>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         </ResourceDictionary>
     </Application.Resources>
