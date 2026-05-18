@@ -1,9 +1,12 @@
 name: Déploiement en continu GestionCryo
 
 on:
-    push:
-      tags:
+  push:
+    tags:
       - 'GestionCryo-V*'
+
+permissions:
+  contents: write
 
 jobs:
   test:
@@ -19,17 +22,14 @@ jobs:
 
   publish:
     runs-on: windows-latest
-    needs: test #Revalide que les tests passent pour déployer
-
+    needs: test
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
-
     - name: Publish WPF GestionCryo
       run: >
         dotnet publish GestionCryo/GestionCryo.csproj
@@ -37,10 +37,8 @@ jobs:
         --runtime win-x64
         --self-contained true
         --output publish
-
     - name: Create ZIP archive
       run: Compress-Archive -Path publish/* -DestinationPath GestionCryo.zip
-
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
