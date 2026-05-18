@@ -1,7 +1,6 @@
-﻿using BCrypt.Net;
+﻿
 using GestionCryo.Model;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.IO;
 
 namespace GestionCryo.Data
@@ -23,6 +22,7 @@ namespace GestionCryo.Data
         public DbSet<Parcours> Parcours { get; set; }
         public DbSet<CommandePiece> CommandesPieces { get; set; }
         public DbSet<Materiel> Materiels { get; set; }
+        public DbSet<Mission> Missions { get; set; }
 
         public void SeedData()
         {
