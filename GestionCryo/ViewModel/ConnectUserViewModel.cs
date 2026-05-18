@@ -61,9 +61,19 @@ namespace GestionCryo.ViewModel
         
         public ICommand ConnectCommand { get; set; }
 
-        public string ErrorConnexion { get; set; }
+        private string _errorConnexion;
+        public string ErrorConnexion
+        {
+            get => _errorConnexion;
+            set
+            {
+                _errorConnexion = value;
+                OnPropertyChanged();
+            }
+        }
+        public string UsernameError => string.Join("\n", GetErrors(nameof(Username)).Cast<string>());
 
-      
+        public string PasswordError => string.Join("\n", GetErrors(nameof(Password)).Cast<string>());
         private bool CanConnect()
         {
             return !string.IsNullOrWhiteSpace(Username)
@@ -78,7 +88,7 @@ namespace GestionCryo.ViewModel
             {
                 ClearErrors(nameof(Username));
                 ClearErrors(nameof(Password));
-
+                ErrorConnexion = "";
                 Utilisateur? user = _utilisateurDAL.TrouverParNomEtMotDePasse(Username, Password);
 
                 if (user != null)
@@ -99,15 +109,13 @@ namespace GestionCryo.ViewModel
                 else
                 {
                     Trace.TraceWarning($"Tentative de connexion échouée pour l'utilisateur : {Username}");
-                    AddError(nameof(ErrorConnexion), "Nom d'utilisateur ou mot de passe incorrect.");
-                    OnPropertyChanged(nameof(ErrorMessages));
+                    ErrorConnexion = "Nom d'utilisateur ou mot de passe incorrect.";
                 }
             }
             catch (Exception ex)
             {
                 Trace.TraceError($"Erreur lors de la connexion : {ex.Message}");
-                AddError(nameof(ErrorConnexion), "Une erreur est survenue. Veuillez réessayer.");
-                OnPropertyChanged(nameof(ErrorMessages));
+                ErrorConnexion = $"Erreur lors de la connexion : {ex.Message}";
             }
         }
 
@@ -119,6 +127,8 @@ namespace GestionCryo.ViewModel
             if (string.IsNullOrWhiteSpace(value))
                 AddError(propertyName, $"{propertyName} ne peut pas être vide.");
             OnPropertyChanged(nameof(ErrorMessages));
+            OnPropertyChanged(nameof(UsernameError));
+            OnPropertyChanged(nameof(PasswordError));
         }
     }
 }
