@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="GestionCryo.View.CommandeMissionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Margin="32">
+        <Border Background="White"
+                CornerRadius="22"
+                Padding="34"
+                BorderBrush="#E2E8F0"
+                BorderThickness="1">
+
+            <StackPanel>
+
+                <TextBlock Text="Créer une mission"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="#0F172A"
+                           Margin="0 0 0 6"/>
+
+                <TextBlock Text="Planification d’une mission maritime"
+                           FontSize="16"
+                           Foreground="#475569"
+                           Margin="0 0 0 28"/>
+
+                <TextBlock Text="Point de départ"
+                           FontWeight="SemiBold"
+                           Foreground="#1E293B"
+                           Margin="0 0 0 6"/>
+
+                <ComboBox ItemsSource="{Binding Stations}"
+                          SelectedItem="{Binding StationDepartSelectionnee}"
+                          DisplayMemberPath="Nom"
+                          Height="38"
+                          Padding="8,4"
+                          Margin="0 0 0 14"/>
+
+                <TextBlock Text="Point d’arrivée"
+                           FontWeight="SemiBold"
+                           Foreground="#1E293B"
+                           Margin="0 0 0 6"/>
+
+                <ComboBox ItemsSource="{Binding Stations}"
+                          SelectedItem="{Binding StationArriveeSelectionnee}"
+                          DisplayMemberPath="Nom"
+                          Height="38"
+                          Padding="8,4"
+                          Margin="0 0 0 14"/>
+
+                <TextBlock Text="Navire"
+                           FontWeight="SemiBold"
+                           Foreground="#1E293B"
+                           Margin="0 0 0 6"/>
+
+                <ComboBox ItemsSource="{Binding Bateaux}"
+                          SelectedItem="{Binding BateauSelectionne}"
+                          DisplayMemberPath="Nom"
+                          Height="38"
+                          Padding="8,4"
+                          Margin="0 0 0 14"/>
+
+                <TextBlock Text="Cargo"
+                           FontWeight="SemiBold"
+                           Foreground="#1E293B"
+                           Margin="0 0 0 6"/>
+
+                <TextBox Text="{Binding Cargo, UpdateSourceTrigger=PropertyChanged}"
+                         Height="38"
+                         Padding="10,6"
+                         Margin="0 0 0 14"/>
+
+                <TextBlock Text="{Binding ErrorMessages}"
+                           Foreground="#DC2626"
+                           FontWeight="SemiBold"
+                           TextWrapping="Wrap"
+                           Margin="0 0 0 12"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Créer la mission"
+                            Command="{Binding CreerMissionCommand}"
+                            Width="170"
+                            Height="42"
+                            FontWeight="SemiBold"
+                            Background="#2563EB"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Margin="0 0 12 0"/>
+
+                    <Button Content="Retour"
+                            Command="{Binding RetourCommand}"
+                            Width="120"
+                            Height="42"
+                            FontWeight="SemiBold"
+                            Background="#E2E8F0"
+                            Foreground="#0F172A"
+                            BorderThickness="0"/>
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
