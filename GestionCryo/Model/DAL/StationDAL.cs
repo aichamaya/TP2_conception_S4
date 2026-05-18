@@ -23,5 +23,14 @@ namespace GestionCryo.Model.DAL
         {
             return _context.Stations.Include(s => s.Bateaux).ThenInclude(b => b.ParcoursEnCours).FirstOrDefault(s => s.Id == id);
         }
+        public List<Mission> ObtenirMissionsParStationId(int stationId)
+        {
+            return _context.Missions
+                .Include(m => m.StationDepart)
+                .Include(m => m.StationArrivee)
+                .Include(m => m.Bateau)
+                .Where(m => m.StationDepartId == stationId || m.StationArriveeId == stationId)
+                .ToList();
+        }
     }
 }

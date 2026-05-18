@@ -14,6 +14,13 @@ namespace GestionCryo.Model.DAL
             _context = context;
         }
 
+        public List<Utilisateur> ObtenirEmployesParStationId(int stationId)
+        {
+            return _context.Users
+                .Where(u => u.StationId == stationId)
+                .ToList();
+        }
+
         public Utilisateur? TrouverParNomEtMotDePasse(string username, string password)
         {
             Utilisateur? utilisateur = _context.Users
@@ -27,5 +34,6 @@ namespace GestionCryo.Model.DAL
 
             return null;
         }
+
     }
 }

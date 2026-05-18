@@ -15,7 +15,7 @@ namespace GestionCryo.Model.DAL
             _context = context;
         }
 
-        
+
         public void ModifierEtat(Bateau bateau, EtatBateau nouvelEtat)
         {
             Bateau bateauBd = _context.Bateaux.Find(bateau.Id);
@@ -26,7 +26,7 @@ namespace GestionCryo.Model.DAL
             }
         }
 
-        
+
         public List<Bateau> ObtenirBateauxParStationId(int stationId)
         {
             return _context.Bateaux
@@ -34,5 +34,12 @@ namespace GestionCryo.Model.DAL
                 .Where(b => b.StationProcheId == stationId)
                 .ToList();
         }
+        public List<Bateau> ObtenirTousLesBateaux()
+        {
+            return _context.Bateaux
+                .Include(b => b.ParcoursEnCours)
+                .ToList();
+        }
     }
+
 }

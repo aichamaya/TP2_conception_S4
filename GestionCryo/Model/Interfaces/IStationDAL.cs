@@ -10,5 +10,6 @@ namespace GestionCryo.Model.Interfaces
     {
         ICollection<Station> ObtenirToutesLesStations();
         Station ObtenirStationParId(int stationId);
+        List<Mission> ObtenirMissionsParStationId(int stationId);
     }
 }

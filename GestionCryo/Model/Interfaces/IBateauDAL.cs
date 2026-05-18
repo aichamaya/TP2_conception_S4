@@ -7,5 +7,6 @@ namespace GestionCryo.Model.Interfaces
     {
         void ModifierEtat(Bateau bateau, EtatBateau nouvelEtat);
         List<Bateau> ObtenirBateauxParStationId(int stationId);
+        List<Bateau> ObtenirTousLesBateaux();
     }
 }

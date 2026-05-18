@@ -9,6 +9,7 @@ namespace GestionCryo.Model.Interfaces
     public interface IUtilisateurDAL
     {
         Utilisateur? TrouverParNomEtMotDePasse(string username, string password);
+        List<Utilisateur> ObtenirEmployesParStationId(int stationId);
     }
 }
 
