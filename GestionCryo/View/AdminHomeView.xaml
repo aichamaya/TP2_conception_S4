@@ -153,6 +153,11 @@
                             Width="240"
                             Command="{Binding VoirDetailsStationCommand}"
                             Style="{StaticResource PrimaryButtonStyle}"/>
+                    <Button Content="Créer une mission"
+                            Command="{Binding CreerMissionCommand}"
+                            Height="42"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Width="180"/>
                 </StackPanel>
             </Grid>
         </Border>

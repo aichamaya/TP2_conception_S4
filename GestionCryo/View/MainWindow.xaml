@@ -77,13 +77,13 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Sidebar -->
+  
         <Border Grid.Column="0"
                 Background="#0F172A"
                 Padding="24">
             <DockPanel LastChildFill="True">
 
-                <!-- Bas sidebar -->
+              
                 <StackPanel DockPanel.Dock="Bottom">
                     <Separator Margin="0,12,0,18" Background="#334155"/>
 
