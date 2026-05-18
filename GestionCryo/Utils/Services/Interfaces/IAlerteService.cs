@@ -1,5 +1,4 @@
-using GestionCryo.Model;
-using System.Collections.Generic;
+﻿using GestionCryo.Model;
 
 namespace GestionCryo.Utils.Services.Interfaces
 {
